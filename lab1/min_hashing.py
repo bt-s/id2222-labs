@@ -62,20 +62,6 @@ class MinHash():
 
         return char_mat
 
-    def compare_sets(self, S: np.ndarray, d1: int, d2: int) -> float:
-        """Compare the Jaccard similarity between two documents
-
-        Args:
-            S: The signature matrix of shape (n_shingles, n_documents)
-            d1: ID of document 1
-            d2: ID of document 2
-
-        Returns:
-            The approximated Jaccard similarity between d1 and d2
-        """
-        return np.mean(S[:, d1] == S[:, d2])
-
-
     def create_signatures(self, M: np.ndarray, k: int=100) -> np.ndarray:
         """Creates k signatures from the charactersitic matrix
 

@@ -9,15 +9,17 @@ __author__ = "Xenia Ioannidou and Bas Straathof"
 
 import pandas as pd
 
-from helpers import load_dataset
+from helpers import load_dataset, compare_sets
 from shingles import Shingles
 from min_hashing import MinHash
+from lsh import LSH
 
 # To use the very simple toy data set
 TOY_TOY_DATASET = False
 
 SHINGLES = False
-MINHASH = True
+MINHASH = False
+USE_LSH = True
 
 if TOY_TOY_DATASET:
     X = load_dataset("toy_toy_dataset.csv")
@@ -53,5 +55,26 @@ if MINHASH:
     # Create the signature  matrix
     S = obj.create_signatures(M, k=1000)
     print(f"The approximated Jaccard similarity between document d1 and d2 is: "
-            f"{obj.compare_sets(S, 0, 1)}")
+            f"{compare_sets(S, 0, 1)}")
+
+if USE_LSH:
+    # Define the MinHash object
+    mh = MinHash()
+
+    # Create the characteristic matrix
+    M = mh.create_shingles(X)
+
+    # Create the signature  matrix
+    S = mh.create_signatures(M, k=1000)
+
+    # Define the LSH object
+    lsh = LSH(S)
+
+    #print(f"The approximated Jaccard similarity between document d1 and d2 is: "
+            #f"{compare_sets(S, 0, 1)}")
+
+    pairs = lsh.find_candidate_pairs(S, bands=50)
+    pairs = lsh.compare_pairs(S, pairs)
+    print(pairs)
+
 
