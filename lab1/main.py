@@ -42,7 +42,8 @@ def main(args: Namespace):
         obj = Shingles()
 
         # Create a shingles dataframe based on the data
-        df_shingles = obj.create_shingles(X)
+        df_shingles = obj.create_shingles(X, print_shingles=True,
+                print_hashed_shingles=True)
 
         # Create sets of shingles for the first two documents
         set_d1 = set(df_shingles.iloc[0].to_list()[0])

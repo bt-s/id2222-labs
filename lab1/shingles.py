@@ -15,7 +15,7 @@ random.seed(42)
 
 
 class Shingles():
-    def __init__(self, k=2):
+    def __init__(self, k=10):
         """Class constructor
 
         Attributes:
@@ -23,12 +23,15 @@ class Shingles():
         """
         self.k = k
 
-    def create_shingles(self, df_strings: pd.DataFrame) -> pd.DataFrame:
+    def create_shingles(self, df_strings: pd.DataFrame, print_shingles:
+            bool=False, print_hashed_shingles: bool=False) -> pd.DataFrame:
         """Creates a new dataframe of hashed shingles
 
         Args:
             df_strings: Data frame with n = # rows == # documents of
                         shape (n, 1)
+            print_shingles: Whether to print the shingles per document
+            print_hashed_shingles: Whether to print the shingles per document
 
         Returns:
             df_shingles: Data frame with n = # rows == # documents of
@@ -36,13 +39,21 @@ class Shingles():
         """
         all_shingles_set = set()
 
+        if print_shingles:
+            print("SHINGLES:\n")
+
         df_shingles = pd.DataFrame(columns=["documents"])
         for i, row in df_strings.iterrows():
             shingles = [row["documents"][i:i+self.k] for i in range(len(
                 row["documents"])-self.k+1)]
+
+            if print_shingles:
+                print(f"Document {i}: {shingles}\n")
+
             # Use set() to remove duplicates
             df_shingles.loc[i] = {"documents" : set(shingles)}
             all_shingles_set = all_shingles_set.union(shingles)
+
 
         # Create a hash function
         all_shingles_dict = {}
@@ -50,11 +61,17 @@ class Shingles():
         for i, shingle in enumerate(sorted(list(all_shingles_set))):
             all_shingles_dict[shingle] = hashes[i]
 
+        if print_hashed_shingles:
+            print("HASHED SHINGLES:\n")
+
         # Apply the hash function to the data frame
         for i, row in df_shingles.iterrows():
             hashed_shingles = []
             for j, shingle in enumerate(row["documents"]):
                 hashed_shingles.append(all_shingles_dict[shingle])
+
+            if print_hashed_shingles:
+                print(f"Document {i}: {hashed_shingles}\n")
 
             row["documents"] = sorted(hashed_shingles)
 
