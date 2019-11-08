@@ -38,6 +38,8 @@ def main(args: Namespace):
     X = load_dataset(args.dataset)
 
     if args.task == "shingles":
+        PRINT_SIM = True
+
         # Define the Shingles object
         obj = Shingles()
 
@@ -46,11 +48,15 @@ def main(args: Namespace):
                 print_hashed_shingles=True)
 
         # Create sets of shingles for the first two documents
-        set_d1 = set(df_shingles.iloc[0].to_list()[0])
-        set_d2 = set(df_shingles.iloc[1].to_list()[0])
+        set_d1 = set(df_shingles.iloc[8].to_list()[0])
+        set_d2 = set(df_shingles.iloc[9].to_list()[0])
 
         # Compare the hash-shingled documents using Jaccard similarity
-        obj.compare_sets(set_d1, set_d1)
+        if PRINT_SIM:
+            print("Documents:\n - woman, man, child, sister, brother, pants\n"
+            "- woman, man, child, sister, brother, lecture hall\n")
+
+        obj.compare_sets(set_d1, set_d2, print_sim=PRINT_SIM)
 
 
     if args.task == "minhash":

@@ -77,18 +77,25 @@ class Shingles():
 
         return df_shingles
 
-    def compare_sets(self, d1: Set, d2: Set) -> float:
+    def compare_sets(self, d1: Set, d2: Set, print_sim: bool=False) -> float:
         """Compare the Jaccard similarity between two documents
 
         Args:
             d1: Set of hashed shingles (ints) of document 1
             d2: Set of hashed shingles (ints) of document 2
+            print_sim: Whether to print the result
 
         Returns:
             The Jaccard similarity between d1 and d2
 
         Note: Jaccard similarity = intersection / union
         """
+        sim = len(d1.intersection(d2)) / len(d1.union(d2))
+
+        if print_sim:
+            print(f"The approximated Jaccard similarity between the documents is: "
+                    f"{sim}.")
+
         return len(d1.intersection(d2)) / len(d1.union(d2))
 
 
