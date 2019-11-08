@@ -62,12 +62,14 @@ class MinHash():
 
         return char_mat
 
-    def create_signatures(self, M: np.ndarray, k: int=100) -> np.ndarray:
+    def create_signatures(self, M: np.ndarray, k: int=100, print_s: bool=False
+            ) -> np.ndarray:
         """Creates k signatures from the charactersitic matrix
 
         Args:
             M: The charactersistic matrix
             k: The number of hash functions/permutations
+            print_s: Whether to print hte signature matrix
 
         Returns:
             S : The signature matrix
@@ -105,6 +107,9 @@ class MinHash():
                         break
 
                 step += 1
+
+        if print_s:
+            print(S)
 
         return S
 

@@ -60,6 +60,7 @@ def main(args: Namespace):
 
 
     if args.task == "minhash":
+        PRINT_SIM = True
         # Define the MinHash object
         obj = MinHash()
 
@@ -67,9 +68,14 @@ def main(args: Namespace):
         M = obj.create_shingles(X)
 
         # Create the signature  matrix
-        S = obj.create_signatures(M, k=1000)
-        print(f"The approximated Jaccard similarity between document d1 and d2 is: "
-                f"{compare_sets(S, 0, 1)}")
+        S = obj.create_signatures(M, k=10, print_s=True)
+
+        if PRINT_SIM:
+            print("Documents:\n - woman, man, child, sister, brother, pants\n"
+            "- woman, man, child, sister, brother, lecture hall\n")
+
+            print(f"The similarity between v10 and v11 in S is: "
+                    f"{compare_sets(S, 8, 9)}")
 
     if args.task == "lsh":
         # Define the MinHash object
