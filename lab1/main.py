@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.7
 
 """main.py Contains all experiments for lab 1
 
@@ -85,17 +85,13 @@ def main(args: Namespace):
         M = mh.create_shingles(X)
 
         # Create the signature  matrix
-        S = mh.create_signatures(M, k=1000)
+        S = mh.create_signatures(M, k=100)
 
         # Define the LSH object
         lsh = LSH(S)
 
-        #print(f"The approximated Jaccard similarity between document d1 and d2 is: "
-                #f"{compare_sets(S, 0, 1)}")
-
-        pairs = lsh.find_candidate_pairs(S, bands=50)
-        pairs = lsh.compare_pairs(S, pairs)
-        print(pairs)
+        pairs = lsh.find_candidate_pairs(S, k=150, bands=10)
+        pairs = lsh.compare_pairs(S, pairs, print_pairs=True)
 
 if __name__ == "__main__":
     main(parse_args())

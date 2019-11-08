@@ -21,7 +21,7 @@ random.seed(42)
 
 
 class LSH():
-    def __init__(self, S: np.ndarray, t: float=0.2):
+    def __init__(self, S: np.ndarray, t: float=0.7):
         """Class constructor
 
         Attributes:
@@ -89,7 +89,8 @@ class LSH():
         return candidate_pairs
 
 
-    def compare_pairs(self, S: np.ndarray, pairs: List) -> List[Tuple]:
+    def compare_pairs(self, S: np.ndarray, pairs: List, print_pairs:
+            bool=False) -> List[Tuple]:
         """Find all candidate pairs in S
 
         Args:
@@ -99,11 +100,15 @@ class LSH():
         Returns:
             similar_pairs: List of all the pairs more similar than the threshold
         """
-        similar_pairs = []
+        similar_pairs = {}
         for pair in pairs:
             sim = compare_sets(S, pair[0], pair[1])
             if sim > self.t:
-                similar_pairs.append(pair)
+                similar_pairs[pair] = sim
+
+        if print_pairs:
+            print(f"The pairs that are more similar than {self.t} are: "
+                    f"{similar_pairs}")
 
         return similar_pairs
 
