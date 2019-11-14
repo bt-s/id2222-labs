@@ -1,28 +1,42 @@
-import os.path
-from helpers import load_dataset
+#!/usr/bin/python3.7
+
+"""main.py Contains all experiments for lab 2
+
+For the ID2222 Data Mining course at KTH Royal Institute of Technology"""
+
+__author__ = "Xenia Ioannidou and Bas Straathof"
+
+
 from argparse import ArgumentParser, Namespace
 from sys import argv
-from IPython.display import display, HTML
+
+from helpers import load_dataset
+from apriori import apriori
 
 
 def parse_args():
     """Parses CL arguments"""
     parser = ArgumentParser()
 
-    parser.add_argument("-d", "--dataset", type=str, default="./T10I4D100K.dat")
+    parser.add_argument("-d", "--dataset", type=str, default="./toy.csv")
+    parser.add_argument("-s", "--support", type=int, default=2)
+    parser.add_argument("-k", "--k", type=int, default=10)
     parser.add_argument("-t", "--sub_problem", type=str, default="1",
             help="The task that should be carried out: sub_problem 1 or sub_p")
 
     return parser.parse_args(argv[1:])
 
+
 def main(args: Namespace):
 
     try:
         df = load_dataset(args.dataset)
-        display(df)
+        apriori(df, args.support, args.k)
+
     except FileNotFoundError:
         print("File does not exist")
 
 
 if __name__ == "__main__":
     main(parse_args())
+
