@@ -10,16 +10,23 @@ __author__ = "Xenia Ioannidou and Bas Straathof"
 import numpy as np
 import pandas as pd
 import itertools
+from typing import Dict
 
 
-def apriori(df: pd.DataFrame, s: int, K:int):
+def apriori(df: pd.DataFrame, s: int, K:int) -> Dict:
     """Finds frequent itemsets with support at least s
 
     Args:
       df: Input data frame
       s: Support
       K: k-itemsets
+
+    Returns:
+        f_item_sets: All frequent item_sets and their support
     """
+    # Store all frequent itemsets and their support
+    f_item_sets = {}
+
     # A-Priori pass for each of 1 up to K-itemsets
     for k in range(0, K+1):
         # Create a dictionary for counting k-itemsets
@@ -64,12 +71,17 @@ def apriori(df: pd.DataFrame, s: int, K:int):
         Lk = {}
         for key, v in counts.items():
             if v >= s:
+                # Create a unique hash for the frequent itemset
                 Lk[key] = hash(key)
+
+                # Store the frequent itemset and its support
+                f_item_sets[key] = v
             else:
                 Lk[key] = 0
 
-
         if Lk == {}:
-            print(f"There are no {k+1}-itemsets")
+            print(f"There are at most {k}-itemsets.\n")
             break
+
+    return f_item_sets
 

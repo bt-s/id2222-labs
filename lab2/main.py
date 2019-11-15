@@ -12,6 +12,7 @@ from sys import argv
 
 from helpers import load_dataset
 from apriori import apriori
+from association_rules import association_rules
 
 
 def parse_args():
@@ -20,6 +21,7 @@ def parse_args():
 
     parser.add_argument("-d", "--dataset", type=str, default="./toy.csv")
     parser.add_argument("-s", "--support", type=int, default=2)
+    parser.add_argument("-c", "--confidence", type=float, default=0.5)
     parser.add_argument("-k", "--k", type=int, default=10)
     parser.add_argument("-t", "--sub_problem", type=str, default="1",
             help="The task that should be carried out: sub_problem 1 or sub_p")
@@ -31,7 +33,11 @@ def main(args: Namespace):
 
     try:
         df = load_dataset(args.dataset)
-        apriori(df, args.support, args.k)
+        f_item_sets = apriori(df, args.support, args.k)
+        a_rules = association_rules(f_item_sets, args.confidence)
+        print("The association rules are:")
+        for rule in a_rules.items():
+            print(rule)
 
     except FileNotFoundError:
         print("File does not exist")
