@@ -34,8 +34,10 @@ def main(args: Namespace):
     try:
         df = load_dataset(args.dataset)
         f_item_sets = apriori(df, args.support, args.k)
+        print("The frequent item sets are:")
+        print(f_item_sets)
         a_rules = association_rules(f_item_sets, args.confidence)
-        print("The association rules are:")
+        print("\nThe association rules are:")
         for rule in a_rules.items():
             print(rule)
 
