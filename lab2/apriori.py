@@ -45,6 +45,9 @@ def apriori(df: pd.DataFrame, s: int, K:int) -> Dict:
                 # Find candidate k-1-itemsets
                 Ck_min_1 = []
                 for k_item in row:
+                    # Make sure that the keys are sorted from small to large
+                    k_item = tuple(sorted(k_item))
+
                     # Note Lk here is Lk-1
                     if Lk[k_item] != 0:
                         Ck_min_1.append(k_item)
@@ -70,6 +73,9 @@ def apriori(df: pd.DataFrame, s: int, K:int) -> Dict:
         # Determine which items as frequent
         Lk = {}
         for key, v in counts.items():
+            # Make sure that the keys are sorted from small to large
+            key = tuple(sorted(key))
+
             if v >= s:
                 # Create a unique hash for the frequent itemset
                 Lk[key] = hash(key)

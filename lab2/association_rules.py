@@ -22,7 +22,12 @@ def find_subsets(s: Set, n: int) -> List:
     Returns:
         subsets: List of subsets of s of length n
     """
-    return list(itertools.combinations(s, n))
+    subsets = list(itertools.combinations(s, n))
+
+    # Make sure that the subsets are sorted from small to large
+    subsets = [tuple(sorted(s)) for s in subsets]
+
+    return subsets
 
 
 def association_rules(f_item_sets: Dict, c:float=0.5) -> Dict:
@@ -40,7 +45,7 @@ def association_rules(f_item_sets: Dict, c:float=0.5) -> Dict:
         # Association rules can only be found in item sets of at least length
         # two
         if len(i_set) > 1:
-            # Find the support up the frequent itemset
+            # Find the support of the frequent itemset
             s_i_set = f_item_sets[i_set]
 
             # Turn the frequent itemset tuple into a set
