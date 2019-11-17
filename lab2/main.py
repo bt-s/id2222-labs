@@ -23,8 +23,6 @@ def parse_args():
     parser.add_argument("-s", "--support", type=int, default=2)
     parser.add_argument("-c", "--confidence", type=float, default=0.5)
     parser.add_argument("-k", "--k", type=int, default=10)
-    parser.add_argument("-t", "--sub_problem", type=str, default="1",
-            help="The task that should be carried out: sub_problem 1 or sub_p")
 
     return parser.parse_args(argv[1:])
 
