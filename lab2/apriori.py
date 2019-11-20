@@ -7,13 +7,11 @@ For the ID2222 Data Mining course at KTH Royal Institute of Technology"""
 __author__ = "Xenia Ioannidou and Bas Straathof"
 
 
-import numpy as np
-import pandas as pd
-import itertools
-from typing import Dict
+from itertools import combinations
+from typing import Dict, List
 
 
-def apriori(df: pd.DataFrame, s: int, K:int) -> Dict:
+def apriori(transactions: List, s: int, K:int) -> Dict:
     """Finds frequent itemsets with support at least s
 
     Args:
@@ -31,32 +29,26 @@ def apriori(df: pd.DataFrame, s: int, K:int) -> Dict:
     for k in range(0, K+1):
         # Create a dictionary for counting k-itemsets
         counts = {}
-
-        for i, row in df.iterrows():
-            # Turn the pandas.Series into a list of integers
-            row = list(map(int, row.tolist()[0].split()))
-
+        for ix, t in enumerate(transactions):
             if k == 0:
-                Ck = list(itertools.combinations(row, 1))
+                Ck = list(combinations(t, 1))
             else:
-                # Turn the list of integers into a list of tuples
-                row = list(itertools.combinations(row, k))
+                # Turn the list of integers into a list of tuples, where we make
+                # sure that the tuples are sorted from small to large
+                t = list(combinations(sorted(t), k))
 
-                # Find candidate k-1-itemsets
-                Ck_min_1 = []
-                for k_item in row:
-                    # Make sure that the keys are sorted from small to large
-                    k_item = tuple(sorted(k_item))
-
+                # Find all frequent itemsets from the previous round
+                k_min_f_items = []
+                for k_item in t:
                     # Note Lk here is Lk-1
                     if Lk[k_item] != 0:
-                        Ck_min_1.append(k_item)
+                        k_min_f_items.append(k_item)
 
-                # Turn Ck_min_1 into a set of frequent singletons
-                f_singletons = set([x for l in Ck_min_1 for x in l])
+                # Turn f_items into a set of frequent singletons
+                f_singletons = set([x for l in k_min_f_items for x in l])
 
                 # Obtain all candidate frequent k-itemsets
-                Ck = list(itertools.combinations(f_singletons, k+1))
+                Ck = list(combinations(sorted(f_singletons), k+1))
 
             # Loop over the candidate items and count them
             for item in Ck:
@@ -66,19 +58,16 @@ def apriori(df: pd.DataFrame, s: int, K:int) -> Dict:
                     counts[item] += 1
 
             if not k == 0:
-                # Only keep the items in the basket that are candidate
+                # Only keep the items in the transaction that are candidate
                 # f_singletons
-                df.loc[i] = ' '.join(list(map(str, f_singletons)))
+                transactions[ix] = list(f_singletons)
 
-        # Determine which items as frequent
+        # Determine which items are frequent
         Lk = {}
         for key, v in counts.items():
-            # Make sure that the keys are sorted from small to large
-            key = tuple(sorted(key))
-
             if v >= s:
                 # Create a unique hash for the frequent itemset
-                Lk[key] = hash(key)
+                Lk[key] = 1
 
                 # Store the frequent itemset and its support
                 f_item_sets[key] = v
