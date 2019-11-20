@@ -52,7 +52,6 @@ def association_rules(f_item_sets: Dict, c:float=0.5) -> Dict:
 
             # Find all subsets of length n-1 of the frequent itemset
             i_subsets = find_subsets(i_set, len(i_set)-1)
-            #i_subsets = [(i,) for i in i_set]
 
             for i_subset in i_subsets:
                 # Retrieve the support of the subset

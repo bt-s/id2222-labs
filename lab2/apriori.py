@@ -65,7 +65,6 @@ def apriori(transactions: List, s: int, K:int) -> Dict:
         # Determine which items are frequent
         Lk = {}
         for key, v in counts.items():
-            #if k >= 0:print(key, v)
             if v >= s:
                 # Create a unique hash for the frequent itemset
                 Lk[key] = 1
