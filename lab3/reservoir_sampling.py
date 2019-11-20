@@ -18,6 +18,15 @@ from helpers import draw_graph
 
 
 def reservoir_sampling(Sigma: Graph, M: int) -> Graph:
+    """Create a reservoir of M edges from Sigma
+
+    Args:
+        Sigma: The input graph
+        M: The number of edges out of which the reservoir should consist
+
+    Returns:
+        S: The reservoir
+    """
     # Get a list of the edges
     Sigma_e = list(Sigma.edges)
 
