@@ -50,7 +50,7 @@ class Triest():
         n_v = set(self.S.neighbors(edge[1]))
         # The intersection of the neighborhoods of nodes u and v
         n_uv = n_u.intersection(n_v)
-# For each common neighborhood, update tau
+        # For each common neighborhood, update tau
         for n in range(len(n_uv)):
             self.tau += val
 
