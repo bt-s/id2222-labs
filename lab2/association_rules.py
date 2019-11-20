@@ -7,7 +7,6 @@ For the ID2222 Data Mining course at KTH Royal Institute of Technology"""
 __author__ = "Xenia Ioannidou and Bas Straathof"
 
 
-import numpy as np
 from typing import Dict, List, Set
 import itertools
 
