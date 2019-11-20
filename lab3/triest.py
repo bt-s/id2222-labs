@@ -71,5 +71,3 @@ class Triest():
 
         return self.tau
 
-
-

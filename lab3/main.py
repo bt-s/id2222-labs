@@ -10,6 +10,8 @@ __author__ = "Xenia Ioannidou and Bas Straathof"
 from argparse import ArgumentParser, Namespace
 from sys import argv
 
+from helpers import load_dataset
+
 
 def parse_args():
     """Parses CL arguments"""
@@ -21,12 +23,7 @@ def parse_args():
 
 
 def main(args: Namespace):
-    try:
-        df = load_dataset(args.dataset)
-
-    except FileNotFoundError:
-        print("File does not exist")
-
+    df = load_dataset(args.dataset)
 
 if __name__ == "__main__":
     main(parse_args())
