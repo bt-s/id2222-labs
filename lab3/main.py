@@ -21,7 +21,8 @@ def parse_args():
     """Parses CL arguments"""
     parser = ArgumentParser()
 
-    parser.add_argument("-d", "--dataset", type=str, default="out.facebook-wosn-links")
+    parser.add_argument("-d", "--dataset", type=str,
+            default="out.facebook-wosn-links")
     parser.add_argument("-m", "--M", type=int, default=50000,
             help="The number of edges in the reservoir.")
     parser.add_argument("-n", "--runs", type=int, default=20,
@@ -46,6 +47,7 @@ def main(args: Namespace):
     print("Obtain statistics about about the reservoir.")
     get_graph_statistics(S)
 
+    ## Perform an experiment using hte Triest Base algorithm
     # Store all estimates of the global amount of triangles in a list
     estimates = []
     for i in range(args.runs):
@@ -54,7 +56,20 @@ def main(args: Namespace):
         estimates.append(int(tau))
         print(f"Run {i}: {int(tau)}")
 
-    print("\nApproximation of the global amount of triangles in the graph:")
+    print("\nTriest Base approx. of the global amount of triangles in G:")
+    print(f"- mean estimate: {statistics.mean(estimates)}")
+    print(f"- standard deviation: {statistics.stdev(estimates)}")
+
+    ## Perform an experiment using hte Triest Improved algorithm
+    # Store all estimates of the global amount of triangles in a list
+    estimates = []
+    for i in range(args.runs):
+        triest = Triest(G, args.M)
+        S, tau = triest.triest_impr()
+        estimates.append(int(tau))
+        print(f"Run {i}: {int(tau)}")
+
+    print("\nTriest Improved approx. of the global amount of triangles in G:")
     print(f"- mean estimate: {statistics.mean(estimates)}")
     print(f"- standard deviation: {statistics.stdev(estimates)}")
 
