@@ -13,20 +13,18 @@ from networkx.drawing.nx_pylab import draw_networkx
 import matplotlib.pyplot as plt
 
 
-def create_graph(f_name: str, n: int =2, sep: str =" ") -> Graph:
+def create_graph(f_name: str, sep: str =",") -> Graph:
     """Creates a graph from a file
 
     Args:
         f_name: The filename/path
-        n: The number of lines on the top of the file to skip
         sep: The value separator in the file
 
     Returns:
         G: The graph
     """
+    # Read the file
     data = open(f_name, "r")
-    for i in range(n):
-        next(data, None) # Delete a line in the input file
 
     # Define the graph type
     Graphtype = nx.Graph()

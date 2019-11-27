@@ -30,6 +30,10 @@ def main(args: Namespace):
     # Create a graph from the data set
     G = create_graph(args.dataset)
 
+    # Show some statistics of G
+    print("Obtain statistics about about the graph.")
+    get_graph_statistics(G)
+
 if __name__ == "__main__":
     main(parse_args())
 
