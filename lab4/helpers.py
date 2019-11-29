@@ -11,6 +11,7 @@ import networkx as nx
 from networkx.classes.graph import Graph
 from networkx.drawing.nx_pylab import draw_networkx
 import matplotlib.pyplot as plt
+from typing import List
 
 
 def create_graph(f_name: str, sep: str =",") -> Graph:
@@ -36,17 +37,18 @@ def create_graph(f_name: str, sep: str =",") -> Graph:
     return G
 
 
-def draw_graph(G: Graph, labels: bool=True, save: bool=False,
-        fname: str="test.pdf"):
+def draw_graph(G: Graph, labels: bool=True, colors: List=["lightblue"],
+        save: bool=False, fname: str="test.pdf"):
     """Draw a graph structure
 
     Args:
         G: The graph to be drawn
         labels: Whether to draw the labels
+        colors: List of colors
         save: Whetehr to save the file
         fname: The path and name of the file to be saved
     """
-    draw_networkx(G, with_labels=labels, node_color="lightblue")
+    draw_networkx(G, with_labels=labels, node_size=12, node_color=colors)
 
     if save:
         plt.savefig(fname)
@@ -63,4 +65,5 @@ def get_graph_statistics(G):
         G: The graph to be analyzed
     """
     print(f"The number of edges is: {len(G.edges)}")
-    print(f"The number of nodes is: {len(G.nodes)}")
+    print(f"The number of nodes is: {len(G.nodes)}\n")
+
