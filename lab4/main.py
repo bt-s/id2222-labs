@@ -9,8 +9,10 @@ __author__ = "Xenia Ioannidou and Bas Straathof"
 
 from argparse import ArgumentParser, Namespace
 from sys import argv
+from sklearn import cluster
 
 from helpers import *
+from k_eigenvector import k_eigenvector
 
 
 def parse_args():
@@ -30,9 +32,17 @@ def main(args: Namespace):
     # Create a graph from the data set
     G = create_graph(args.dataset)
 
-    # Show some statistics of G
-    print("Obtain statistics about about the graph.")
+    print("Obtain statistics about about the graph...")
     get_graph_statistics(G)
+
+    # Perform the k_eigenvector algorithm
+    k, labels = k_eigenvector(G, plot=True, save=True, gid=args.dataset[:-4])
+
+    print(f"The optimal number of clusters is: {k}\n")
+
+    # Draw the clustered graph
+    draw_graph(G, labels=False, colors=labels)
+
 
 if __name__ == "__main__":
     main(parse_args())
