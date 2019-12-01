@@ -9,7 +9,7 @@ __author__ = "Xenia Ioannidou and Bas Straathof"
 
 from argparse import ArgumentParser, Namespace
 from sys import argv
-
+from graph_spectra import Graph_Spectra
 from helpers import *
 
 
@@ -29,10 +29,14 @@ def main(args: Namespace):
 
     # Create a graph from the data set
     G = create_graph(args.dataset)
-
+    # draw_graph(G)
     # Show some statistics of G
     print("Obtain statistics about about the graph.")
     get_graph_statistics(G)
+
+    g = Graph_Spectra(G)
+    # g.printing()
+    g.spectral_clustering()
 
 if __name__ == "__main__":
     main(parse_args())
